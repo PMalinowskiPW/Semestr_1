@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "wektor.h"
+#define BUFSIZE 8192
+
+ typedef struct skorowidz_t {
+        int ile_slow;
+        char **slowa;
+        wektor_t *linie;
+} skorowidz_t;
+
+
+skorowidz_t zainicjuj_skorowidz( int argc, char **argv ) {
+        skorowidz_t skorowidz;
+
+        skorowidz.ile_slow = argc-3;
+        skorowidz.slowa = malloc( skorowidz.ile_slow * sizeof(char*));
+        skorowidz.linie = malloc( skorowidz.ile_slow * sizeof(wektor_t));
+        for(int i = 0; i < (argc-3); i++ ) {
+                skorowidz.slowa[i] = argv[i+3];
+                skorowidz.linie[i].rozmiar = 0;
+        }
+
+return skorowidz;
+}
+
+
+void filtruj_bufor(char buf[]) {
+        int i = 0;
+
+        while (buf[i]) {
+                if (buf[i] < 'A'&& buf[i]> 0)
+                        buf[i] = ' ';
+                i++;
+        }
+}
+
+
+//do poprawy na wymagana wersje
+void wczytaj_skorowidz (skorowidz_t * skorowidz, FILE *in) {
+        char buf[BUFSIZE];
+        int nr_linii= 0;
+
+        while( fgets( buf, BUFSIZE, in ) != NULL ) {
+		if(buf[0]>' '){
+		 printf("przed %s\n",buf);
+        	 filtruj_bufor( buf );
+		 printf("po   %s\n",buf);
+
+                for( int i= 0; i < skorowidz->ile_slow; i++ )
+                        if( strstr( buf, skorowidz->slowa[i] ) != NULL )
+                                 skorowidz->linie[i] = dodaj_element(skorowidz->linie[i], nr_linii);
+                nr_linii++;
+		}
+        }
+}
+
+
+void wypisz_skorowidz(skorowidz_t skorowidz, FILE *out ) {
+        int i,j;
+
+        for( i = 0; i < skorowidz.ile_slow; i++ ) {
+                if( skorowidz.linie[i].rozmiar > 0 ) {
+                        //na stdout
+                        printf( "słowo \"%s\" wystąpiło %i razy w liniach: ", skorowidz.slowa[i], skorowidz.linie[i].rozmiar);
+                        wypisz_wektor(stdout, skorowidz.linie[i]);
+
+                        //do pliku nie działa XD
+                        if (out != stdout) {
+                                fprintf(out, "\"%s\" %i ",  skorowidz.slowa[i], skorowidz.linie[i].rozmiar);
+                                wypisz_wektor(out, skorowidz.linie[i]);
+                        }
+               } else
+                        printf( "nie napotkano słowa \"%s\"\n", skorowidz.slowa[i] );
+  }
+}
