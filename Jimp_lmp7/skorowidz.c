@@ -38,25 +38,28 @@ void filtruj_bufor(char buf[]) {
 }
 
 
-//do poprawy na wymagana wersje
 void wczytaj_skorowidz (skorowidz_t * skorowidz, FILE *in) {
         char buf[BUFSIZE];
         int nr_linii= 0;
+        char * tmp_ptr;
 
         while( fgets( buf, BUFSIZE, in ) != NULL ) {
-		if(buf[0]>' '){
-		 printf("przed %s\n",buf);
-        	 filtruj_bufor( buf );
-		 printf("po   %s\n",buf);
+                 filtruj_bufor( buf );
+		 printf("po %s\n",buf);
 
-                for( int i= 0; i < skorowidz->ile_slow; i++ )
-                        if( strstr( buf, skorowidz->slowa[i] ) != NULL )
-                                 skorowidz->linie[i] = dodaj_element(skorowidz->linie[i], nr_linii);
+                for( int i= 0; i < skorowidz->ile_slow; i++ ) {
+                        tmp_ptr = buf;
+                	
+			while ((tmp_ptr = strstr(tmp_ptr, skorowidz->slowa[i])) != NULL) {
+                                        skorowidz->linie[i] = dodaj_element(skorowidz->linie[i], nr_linii);
+
+					while (tmp_ptr && *tmp_ptr != ' ')
+						tmp_ptr++;                         
+                         }
+                }
                 nr_linii++;
-		}
         }
 }
-
 
 void wypisz_skorowidz(skorowidz_t skorowidz, FILE *out ) {
         int i,j;
