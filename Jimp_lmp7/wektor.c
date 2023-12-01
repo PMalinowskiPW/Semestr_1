@@ -6,14 +6,14 @@ typedef struct wektor_t {
         int rozmiar;
 }wektor_t;
 
-wektor_t dodaj_element (wektor_t w, char c) {
+wektor_t dodaj_element (wektor_t w, int i) {
 
         if (w.rozmiar == 0)
                 w.tablica = malloc(sizeof(int));
         else
                 w.tablica = realloc(w.tablica, (w.rozmiar +1) * sizeof(int));
 
-        w.tablica[w.rozmiar] = c;
+        w.tablica[w.rozmiar] = i;
         w.rozmiar += 1;
 
 return w;

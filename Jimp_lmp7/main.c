@@ -2,10 +2,21 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "biblioteka.h"
 #include "skorowidz.h"
-#include "wektor.h"
+//#include "wektor.h"
 
 int main( int argc, char **argv ) {
+
+  if (pomoc(argc, argv) == 1) {
+	 fprintf (stderr, "Wywołanie: ./a.out nazwa_pliku_z_danymi.txt nazwa_pliku_wyjścia.txt słowa_do_wyszukania\n");
+ 	 return EXIT_FAILURE;
+  }
+  if (pomoc(argc, argv) == 2) {
+	 fprintf (stderr, "Wywołanie: ./a.out nazwa_pliku_z_danymi.txt nazwa_pliku_wyjścia.txt słowa_do_wyszukania\n");
+         fprintf (stderr, "Plik wyjściowy musi mieć rozszerzenie .txt\n");		
+	return EXIT_FAILURE;		
+  }
 
   FILE *in = argc > 1 ? fopen( argv[1], "r") : stdin;
   FILE *out = argc > 2 ? fopen(argv[2], "w") : stdout;

@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "biblioteka.h"
 #include "wektor.h"
+
 #define BUFSIZE 8192
 
  typedef struct skorowidz_t {
@@ -25,18 +27,6 @@ skorowidz_t zainicjuj_skorowidz( int argc, char **argv ) {
 
 return skorowidz;
 }
-
-
-void filtruj_bufor(char buf[]) {
-        int i = 0;
-
-        while (buf[i]) {
-                if (buf[i] < 'A'&& buf[i]> 0)
-                        buf[i] = ' ';
-                i++;
-        }
-}
-
 
 void wczytaj_skorowidz (skorowidz_t * skorowidz, FILE *in) {
         char buf[BUFSIZE];
@@ -66,11 +56,10 @@ void wypisz_skorowidz(skorowidz_t skorowidz, FILE *out ) {
 
         for( i = 0; i < skorowidz.ile_slow; i++ ) {
                 if( skorowidz.linie[i].rozmiar > 0 ) {
-                        //na stdout
+                       
                         printf( "słowo \"%s\" wystąpiło %i razy w liniach: ", skorowidz.slowa[i], skorowidz.linie[i].rozmiar);
                         wypisz_wektor(stdout, skorowidz.linie[i]);
 
-                        //do pliku nie działa XD
                         if (out != stdout) {
                                 fprintf(out, "\"%s\" %i ",  skorowidz.slowa[i], skorowidz.linie[i].rozmiar);
                                 wypisz_wektor(out, skorowidz.linie[i]);
