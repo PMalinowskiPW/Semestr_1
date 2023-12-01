@@ -4,7 +4,6 @@
 
 #include "biblioteka.h"
 #include "skorowidz.h"
-//#include "wektor.h"
 
 int main( int argc, char **argv ) {
 
