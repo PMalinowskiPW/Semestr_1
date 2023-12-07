@@ -6,7 +6,7 @@
 #include "skorowidz.h"
 
 int main( int argc, char **argv ) {
-
+// obsługa błędów wywołania. Obsługiwana przez funkcję pomoc
   if (pomoc(argc, argv) == 1) {
 	 fprintf (stderr, "Wywołanie: ./a.out nazwa_pliku_z_danymi.txt nazwa_pliku_wyjścia.txt słowa_do_wyszukania\n");
  	 return EXIT_FAILURE;

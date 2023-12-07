@@ -35,7 +35,6 @@ void wczytaj_skorowidz (skorowidz_t * skorowidz, FILE *in) {
 
         while( fgets( buf, BUFSIZE, in ) != NULL ) {
                  filtruj_bufor( buf );
-		 printf("po %s\n",buf);
 
                 for( int i= 0; i < skorowidz->ile_slow; i++ ) {
                         tmp_ptr = buf;

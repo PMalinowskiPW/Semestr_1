@@ -3,13 +3,14 @@
 
 typedef struct wektor_t {
         int *tablica;
+	int max;
         int rozmiar;
 }wektor_t;
 
 wektor_t dodaj_element (wektor_t w, int i) {
 
         if (w.rozmiar == 0)
-                w.tablica = malloc(sizeof(int));
+                w.tablica = malloc(w.max * sizeof(int));
         else
                 w.tablica = realloc(w.tablica, (w.rozmiar +1) * sizeof(int));
 
